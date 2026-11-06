@@ -1,3 +1,9 @@
 <Solution>
-  <Project Path="WpfApp1/WpfApp1.csproj" />
+  <Folder Name="/src/">
+    <Project Path="src/LiquidConfig.Core/LiquidConfig.Core.csproj" />
+    <Project Path="WpfApp1/LiquidConfig.App.csproj" />
+  </Folder>
+  <Folder Name="/tests/">
+    <Project Path="tests/LiquidConfig.Core.Tests/LiquidConfig.Core.Tests.csproj" />
+  </Folder>
 </Solution>

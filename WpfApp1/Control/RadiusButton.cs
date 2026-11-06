@@ -4,7 +4,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-namespace WpfApp1.Control
+namespace LiquidConfig.App.Control
 {
     public class RadiusButton:Button
     {

@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-namespace WpfApp1.Views
+namespace LiquidConfig.App.Views
 {
     /// <summary>
     /// View1.xaml 的交互逻辑

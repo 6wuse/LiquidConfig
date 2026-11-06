@@ -4,7 +4,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-namespace WpfApp1.Control
+namespace LiquidConfig.App.Control
 {
     //自定义控件NavigationButton，专门用再导航界面中（存在互斥效果）
     public class NavigationButton: RadioButton

@@ -1,11 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using LiquidConfig.App.ViewModels;
+using LiquidConfig.App.Views;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System.Configuration;
-using System.Data;
 using System.Windows;
-using WpfApp1.ViewModels;
-using WpfApp1.Views;
-namespace WpfApp1
+namespace LiquidConfig.App
 {
     /// <summary>
     /// Interaction logic for App.xaml
@@ -22,9 +20,9 @@ namespace WpfApp1
                 services.AddSingleton<MainWindow>();
 
                 services.AddSingleton<MainViewModel>();
-                services.AddSingleton<ViewModels.ViewModel1>();
-                services.AddSingleton<ViewModels.ViewModel2>();
-                services.AddSingleton<ViewModels.ViewModel3>();
+                services.AddSingleton<ViewModel1>();
+                services.AddSingleton<ViewModel2>();
+                services.AddSingleton<ViewModel3>();
 
             }).Build();
 

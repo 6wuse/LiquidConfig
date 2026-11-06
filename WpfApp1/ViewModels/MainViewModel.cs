@@ -1,10 +1,11 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
+using LiquidConfig.App.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Text;
 
-namespace WpfApp1.ViewModels
+namespace LiquidConfig.App.ViewModels
 {
     public partial class MainViewModel : ObservableObject
     {

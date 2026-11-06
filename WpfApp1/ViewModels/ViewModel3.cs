@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace WpfApp1.ViewModels
+namespace LiquidConfig.App.ViewModels
 {
     public class ViewModel3
     {

@@ -6,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
 using System.Windows.Media;
 
-namespace WpfApp1.Control
+namespace LiquidConfig.App.Control
 {
     public class RadiusRepeatButton : RepeatButton//这个按钮可以实现，长按一直执行Command
     {
