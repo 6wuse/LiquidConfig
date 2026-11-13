@@ -5,8 +5,23 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:LiquidConfig.App.Views"
              xmlns:Control="clr-namespace:LiquidConfig.App.Control"
+             xmlns:b="clr-namespace:LiquidConfig.App.Services.Behaviors"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800">
+
+    <UserControl.Resources>
+        <Style x:Key="PropLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="#6B7280"/>
+            <Setter Property="VerticalAlignment" Value="Center"/>
+            <Setter Property="Margin" Value="0,0,8,6"/>
+        </Style>
+        <Style x:Key="PropBox" TargetType="TextBox">
+            <Setter Property="HorizontalAlignment" Value="Stretch"/>
+            <Setter Property="Margin" Value="0,0,0,6"/>
+            <Setter Property="Padding" Value="4,2"/>
+        </Style>
+    </UserControl.Resources>
+
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="180"/>
@@ -23,36 +38,59 @@
                 <Control:RadiusButton Content="命令按钮" Margin="0,0,0,5" Height="50" DefaultBackground="#F8FAFC" HoverBackground="#DCEEFF" PressedBackground="#5B9BD5" CornerRadius="10"/>
             </StackPanel>
         </Border>
-        <!-- 中：画布 -->
+        <!-- 中：画布 Canvas -->
         <Border Grid.Column="1" Background="#F3F4F6">
-            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">  <!--增加滚动条-->
-                <ItemsControl x:Name="WidgetHost" ItemsSource="{Binding Widgets}" Width="1200" Height="700" Background="White" Margin="16">
+            <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">  <!--增加滚动条-->                             <!--这里已经把附加属性设置为了True-->
+                <ListBox x:Name="WidgetHost" ItemsSource="{Binding Widgets}" SelectedItem="{Binding Selected, Mode=TwoWay}" SelectionMode="Single" b:DragMoveBehavior.Enabled="True"  
+                         Width="1200" Height="700" Background="White" Margin="16" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ScrollViewer.VerticalScrollBarVisibility="Disabled" >
 
-                    <ItemsControl.ItemsPanel>
+                    <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
-                            <Canvas/>
-                            <!--更改排列方式，将默认的StackPanel改为Canvas，方便自由布局。Canvas是第四种布局方式，StackPanel，Grid是第二种布局方式，DockPanel是第三种布局方式。-->
+                            <Canvas/><!--更改排列方式，将默认的StackPanel改为Canvas，方便自由布局。Canvas是第四种布局方式，StackPanel，Grid是第二种布局方式，DockPanel是第三种布局方式。-->
                         </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
+                    </ListBox.ItemsPanel>
 
-                    <ItemsControl.ItemContainerStyle>
+                    <ListBox.ItemContainerStyle>
                         <!--容器，用设定位置-->
-                        <Style TargetType="ContentPresenter">
+                        <Style TargetType="{x:Type ListBoxItem}">
                             <Setter Property="Canvas.Left" Value="{Binding X}"/>
                             <Setter Property="Canvas.Top" Value="{Binding Y}"/>
                             <Setter Property="Width" Value="{Binding W}"/>
                             <Setter Property="Height" Value="{Binding H}"/>
+                            <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                            <Setter Property="VerticalContentAlignment" Value="Stretch"/>
+                            <Setter Property="SnapsToDevicePixels" Value="True"/>
+
+                            <Setter Property="Template">
+                                <Setter.Value>
+                                    <ControlTemplate TargetType="{x:Type ListBoxItem}">
+                                        <Grid Background="Transparent">
+                                            <ContentPresenter/>
+                                            <Rectangle x:Name="SelectionMark"
+                                                       Stroke="Black" StrokeThickness="2"
+                                                       StrokeDashArray="4 2"
+                                                       IsHitTestVisible="False"
+                                                       Visibility="Collapsed" />
+                                        </Grid>
+                                        <ControlTemplate.Triggers>
+                                            <Trigger Property="IsSelected" Value="True">
+                                                <Setter TargetName="SelectionMark" Property="Visibility" Value="Visible"/>
+                                            </Trigger>
+                                        </ControlTemplate.Triggers>
+                                    </ControlTemplate>
+                                </Setter.Value>
+                            </Setter>
                         </Style>
-                    </ItemsControl.ItemContainerStyle>
-                    <ItemsControl.ItemTemplate>
+                    </ListBox.ItemContainerStyle>
+                    <ListBox.ItemTemplate>
                         <!--修饰，更改样式-->
                         <DataTemplate>
                             <Border Background="{Binding Fill}" CornerRadius="6">
                                 <TextBlock Text="{Binding Title}" Foreground="White" HorizontalAlignment="Center" VerticalAlignment="Center"/>
                             </Border>
                         </DataTemplate>
-                    </ItemsControl.ItemTemplate>
-                </ItemsControl>
+                    </ListBox.ItemTemplate>
+                </ListBox>
             </ScrollViewer>
         </Border>
 
@@ -60,7 +98,76 @@
         <Border Grid.Column="2" Background="#F8FAFC" BorderBrush="#E5E7EB" BorderThickness="1,0,0,0">
             <StackPanel>
                 <TextBlock Text="属性面板" FontSize="16" FontWeight="SemiBold" Margin="0,0,0,5"/>
-                <TextBlock Text="选中画布上的控件后在此编辑" Foreground="#9CA3AF" TextWrapping="Wrap" Margin="0,5,0,0"/>
+                <TextBlock Text="选中画布上的控件后在此编辑" Foreground="#9CA3AF" TextWrapping="Wrap" Margin="0,5,0,0">
+                    <TextBlock.Style>
+                        <Style TargetType="TextBlock">
+                            <Setter Property="Visibility" Value="Collapsed"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Selected}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Visible"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </TextBlock.Style>
+                </TextBlock>
+
+
+                <!-- 外层负责显示/隐藏（DataContext 还是 CanvasViewModel，所以能绑 Selected）
+                       内层负责把 DataContext 换成选中项（所以里面写 {Binding X} 而不是 {Binding Selected.X}）
+                       这两层不能合成一个元素，否则 {Binding Selected} 会去 WidgetViewModel 上找 Selected 属性 -->
+                <StackPanel>
+                    <StackPanel.Style>
+                        <Style TargetType="StackPanel">
+                            <Setter Property="Visibility" Value="Visible"/>
+                            <Style.Triggers>
+                                <DataTrigger Binding="{Binding Selected}" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </DataTrigger>
+                            </Style.Triggers>
+                        </Style>
+                    </StackPanel.Style>
+
+                    <Grid DataContext="{Binding Selected}">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="0" Text="编号" Style="{StaticResource PropLabel}"/>
+                        <TextBlock Grid.Row="0" Grid.Column="1" Text="{Binding Id}" Margin="0,0,0,6"/>
+
+                        <TextBlock Grid.Row="1" Grid.Column="0" Text="名称" Style="{StaticResource PropLabel}"/>
+                        <TextBox   Grid.Row="1" Grid.Column="1" Style="{StaticResource PropBox}"
+                                     Text="{Binding Title, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Grid.Row="2" Grid.Column="0" Text="位置 X" Style="{StaticResource PropLabel}"/>
+                        <TextBox   Grid.Row="2" Grid.Column="1" Style="{StaticResource PropBox}"
+                                     Text="{Binding X, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Grid.Row="3" Grid.Column="0" Text="位置 Y" Style="{StaticResource PropLabel}"/>
+                        <TextBox   Grid.Row="3" Grid.Column="1" Style="{StaticResource PropBox}"
+                                     Text="{Binding Y, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Grid.Row="4" Grid.Column="0" Text="宽度" Style="{StaticResource PropLabel}"/>
+                        <TextBox   Grid.Row="4" Grid.Column="1" Style="{StaticResource PropBox}"
+                                     Text="{Binding W, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+                        <TextBlock Grid.Row="5" Grid.Column="0" Text="高度" Style="{StaticResource PropLabel}"/>
+                        <TextBox   Grid.Row="5" Grid.Column="1" Style="{StaticResource PropBox}"
+                                     Text="{Binding H, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </Grid>
+
+                    <TextBlock Foreground="#9CA3AF" TextWrapping="Wrap" Margin="0,6,0,0"
+                                 Text="位置/尺寸改完立刻生效。鼠标拖动时不吸附，松手时自动对齐 8px 网格。"/>
+                </StackPanel>
             </StackPanel>
         </Border>
     </Grid>

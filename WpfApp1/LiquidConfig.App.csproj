@@ -13,16 +13,12 @@
   <ItemGroup>
     <Compile Remove="Communication\**" />
     <Compile Remove="Models\**" />
-    <Compile Remove="Services\**" />
     <EmbeddedResource Remove="Communication\**" />
     <EmbeddedResource Remove="Models\**" />
-    <EmbeddedResource Remove="Services\**" />
     <None Remove="Communication\**" />
     <None Remove="Models\**" />
-    <None Remove="Services\**" />
     <Page Remove="Communication\**" />
     <Page Remove="Models\**" />
-    <Page Remove="Services\**" />
   </ItemGroup>
 
   <ItemGroup>
