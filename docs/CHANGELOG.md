@@ -17,3 +17,9 @@
 ## CP-04 开发基线改为用户模板仓库（2026-11-12，用户指示）
 - 仓库：`E:\project\WPF\组态软件\6wuse`（用户自制 WPF 模板，git 已初始化并带 origin）。
 - 改动：工程 `WpfApp1` → `LiquidConfig.App`；沿用模板的 slnx 方案格式与 MS DI 组合根。
+
+## CP-05 新增《Git 工作流约定》（2026-11-13，用户指示）
+- 原因：2026-11-13 复盘发现提交粒度过粗（一天一把梭）、提交信息无信息量（「1」）、分支残留（`login` / `main`）与 commit/push 概念混用。
+- 改动：新增 `docs/Git工作流约定.md`（同步一份到 `F:\project\Claude\组态软件\`），确立单主干策略、早 pull --rebase / 白天频繁本地 commit / 晚 push 的节奏、三条硬习惯（选择性 add、`卡号: 做了什么` 信息格式、push 前自查）、危险操作分级与 reflog 救命流程。
+- 影响：开发文档 §9「完成后必须 dotnet build 通过并提交一次」的执行粒度细化到卡内练习级；不改代码、不改铁律条款。
+- 遗留待确认（暂不生效）：T1 DoD 要求 `LiquidConfig.sln` 而仓库用 `WpfApp1.slnx`；App 工程文件已改名 `LiquidConfig.App.csproj` 但所在目录仍为 `WpfApp1`。需用户决定"改仓库对齐文档"还是"补提案改文档措辞"。
