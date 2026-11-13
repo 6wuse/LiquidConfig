@@ -1,8 +1,6 @@
 ﻿//定义数据质量
 namespace LiquidConfig.Core.Models
 {
-    public class TagQyality
-    {
         public enum TagQuality : ushort
         {
             Good = 0, //数据正常
@@ -12,5 +10,4 @@ namespace LiquidConfig.Core.Models
             Invalid = 4, //数据无效
             Stale = 5 //数据过期
         }
-    }
 }

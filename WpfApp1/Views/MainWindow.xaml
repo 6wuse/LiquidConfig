@@ -89,9 +89,9 @@
         </Border>
         <Border DockPanel.Dock="Left">
             <StackPanel>
-                <local:NavigationButton Content="界面1" Height="50"  Margin="0,0,0,5"
+                <local:NavigationButton Content="组态画布" Height="50"  Margin="0,0,0,5"
                                         CornerRadius="10" HoverBackground="#5B9BD5" GroupName="NavigationGroup"
-                                        Command="{Binding NavigateCommand}" CommandParameter="View1"/>
+                                        Command="{Binding NavigateCommand}" CommandParameter="CanvasView"/>
                 <local:NavigationButton Content="界面2" Height="50"  Margin="0,0,0,5"
                                         CornerRadius="10" HoverBackground="#5B9BD5" GroupName="NavigationGroup"
                                         Command="{Binding NavigateCommand}" CommandParameter="View2"/>
