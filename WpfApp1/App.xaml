@@ -5,8 +5,8 @@
              xmlns:viewmodel="clr-namespace:LiquidConfig.App.ViewModels"
              xmlns:view="clr-namespace:LiquidConfig.App.Views">
     <Application.Resources>
-        <DataTemplate DataType="{x:Type viewmodel:ViewModel1}">
-            <view:View1/>
+        <DataTemplate DataType="{x:Type viewmodel:CanvasViewModel}">
+            <view:CanvasView/>
         </DataTemplate>
 
         <DataTemplate DataType="{x:Type viewmodel:ViewModel2}">

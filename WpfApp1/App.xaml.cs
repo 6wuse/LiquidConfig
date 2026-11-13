@@ -20,7 +20,7 @@ namespace LiquidConfig.App
                 services.AddSingleton<MainWindow>();
 
                 services.AddSingleton<MainViewModel>();
-                services.AddSingleton<ViewModel1>();
+                services.AddSingleton<CanvasViewModel>();
                 services.AddSingleton<ViewModel2>();
                 services.AddSingleton<ViewModel3>();
 

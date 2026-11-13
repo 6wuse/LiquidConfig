@@ -14,11 +14,11 @@ using System.Windows.Shapes;
 namespace LiquidConfig.App.Views
 {
     /// <summary>
-    /// View1.xaml 的交互逻辑
+    /// CanvasView.xaml 的交互逻辑
     /// </summary>
-    public partial class View1 : UserControl
+    public partial class CanvasView : UserControl
     {
-        public View1()
+        public CanvasView()
         {
             InitializeComponent();
         }
